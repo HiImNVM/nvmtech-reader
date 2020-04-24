@@ -14,6 +14,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+
     buildTypes {
         release {
             minifyEnabled false
@@ -21,6 +22,32 @@ android {
         }
     }
 
+    flavorDimensions "versionCode"
+    productFlavors {
+        development {
+            getProps('./env/dev.props').each { p ->
+                buildConfigField 'String', p.key, p.value
+            }
+        }
+        production {
+            getProps('./env/prod.props').each { p ->
+                buildConfigField 'String', p.key, p.value
+            }
+        }
+    }
+
+    android.variantFilter { variant ->
+        if(variant.buildType.name == 'release'
+                && variant.getFlavors().get(0).name == 'development') {
+            variant.setIgnore(true);
+        }
+    }
+}
+
+def getProps(path) {
+    Properties props = new Properties()
+    props.load(new FileInputStream(file(path)))
+    return props
 }
 
 dependencies {
