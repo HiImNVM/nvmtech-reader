@@ -22,24 +22,25 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         homeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
 
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                RssResponse.getInstance().fetchRssByLink(BuildConfig.RSS_URL, new IResult() {
-                    @Override
-                    public void abc(RssModel rssModel) {
-                        final List<RssItemModel> rssItemModels = rssModel.getItems();
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                homeBinding.rvRssItems.setAdapter(new HomeRecyclerAdapter(rssItemModels));
-                                homeBinding.rvRssItems.setLayoutManager(new LinearLayoutManager(homeBinding.getRoot().getContext()));
-                            }
-                        });
-                    }
-                });
-            }
-        });
+
+//        AsyncTask.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                RssResponse.getInstance().fetchRssByLink(BuildConfig.RSS_URL, new IResult() {
+//                    @Override
+//                    public void abc(RssModel rssModel) {
+//                        final List<RssItemModel> rssItemModels = rssModel.getItems();
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                homeBinding.rvRssItems.setAdapter(new HomeRecyclerAdapter(rssItemModels));
+//                                homeBinding.rvRssItems.setLayoutManager(new LinearLayoutManager(homeBinding.getRoot().getContext()));
+//                            }
+//                        });
+//                    }
+//                });
+//            }
+//        });
 
     }
 }

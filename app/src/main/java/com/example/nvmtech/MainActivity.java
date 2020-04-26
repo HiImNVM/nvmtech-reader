@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.example.nvmtech.databinding.ActivityMainBinding;
 import com.example.nvmtech.utils.LoggerUtil;
+import com.example.nvmtech.utils.OverlayUtil;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -26,10 +27,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-                startActivity(intent);
-                MainActivity.this.finish();
+                OverlayUtil.animateView(findViewById(R.id.progressOverlay), View.GONE);
+//                Intent intent = new Intent(v.getContext(), HomeActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+//                startActivity(intent);
+//                MainActivity.this.finish();
             }
         });
     }

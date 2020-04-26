@@ -2,9 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingVertical="@dimen/app_padding">
+        android:layout_height="match_parent">
 
+        <include layout="@layout/frame_progress_overlay" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,6 +27,5 @@
                 android:layout_height="wrap_content"
                 android:text="@string/comeWithMe_title" />
         </LinearLayout>
-
     </FrameLayout>
 </layout>
