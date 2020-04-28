@@ -3,4 +3,5 @@
     <color name="color_primary">#000000</color>
     <color name="color_accent">#1C17BA</color>
     <color name="ic_app_background">#000000</color>
+    <color name="color_a">#3F51B5</color>
 </resources>

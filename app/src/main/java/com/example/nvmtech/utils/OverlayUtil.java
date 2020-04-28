@@ -1,22 +1,39 @@
 package com.example.nvmtech.utils;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+
+import com.example.nvmtech.R;
 
 public class OverlayUtil {
-    public static void animateView(final View view, final int toVisibility){
-        boolean show = toVisibility == View.VISIBLE;
-        if (show) {
-            view.setAlpha(0);
+    public static void showOverlayWaiting(OverlayWaiting overlayWaiting, FragmentManager fragmentManager){
+
+        if (fragmentManager == null) {
+            return;
         }
-        view.setVisibility(View.VISIBLE);
-        view.animate()
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        view.setVisibility(toVisibility);
-                    }
-                });
+        overlayWaiting.setCancelable(false);
+        overlayWaiting.show(fragmentManager, null);
+    }
+
+    public static void close(OverlayWaiting overlayWaiting){
+        if (overlayWaiting != null){
+            overlayWaiting.dismiss();
+        }
+    }
+
+    public static class OverlayWaiting extends DialogFragment {
+
+        @Nullable
+        @Override
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            return inflater.inflate(R.layout.frame_progress_overlay, container, false);
+        }
     }
 }

@@ -3,15 +3,16 @@ package com.example.nvmtech.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.nvmtech.BuildConfig;
 import com.example.nvmtech.R;
 import com.example.nvmtech.data.DataManager;
 import com.example.nvmtech.models.apis.RssItem;
@@ -26,6 +27,7 @@ import butterknife.ButterKnife;
 public class HomeActivity extends BaseActivity<HomeViewModel> {
     @BindView(R.id.rvRssItems) RecyclerView rvRssItems;
 
+
     private HomeAdapter homeAdapter;
 
     @NonNull
@@ -39,16 +41,44 @@ public class HomeActivity extends BaseActivity<HomeViewModel> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        setupActionBar();
         ButterKnife.bind(this);
 
-        homeAdapter = new HomeAdapter();
-        rvRssItems.setAdapter(homeAdapter);
-        rvRssItems.setLayoutManager(new LinearLayoutManager(this));
-
+        // setupActionBar();
+        setupListRssItems();
         viewModel.getIsLoading().observe(this, new LoadingObserver());
         viewModel.getRssItems().observe(this, new RssItemsObserver());
 
         viewModel.fetchRss();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return true;
+    }
+
+    private void setupActionBar(){
+        Toolbar myToolbar = (Toolbar)findViewById(R.id.tbHome);
+        setSupportActionBar(myToolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar == null){
+            return;
+        }
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setTitle("NVM");
+    }
+
+    private void setupListRssItems(){
+        homeAdapter = new HomeAdapter();
+        rvRssItems.setAdapter(homeAdapter);
+        rvRssItems.setLayoutManager(new LinearLayoutManager(this));
     }
 
     public static void start(Context context){
@@ -57,12 +87,17 @@ public class HomeActivity extends BaseActivity<HomeViewModel> {
     }
 
     private class LoadingObserver implements Observer<Boolean> {
+        private OverlayUtil.OverlayWaiting overlayWaiting = new OverlayUtil.OverlayWaiting();
 
         @Override
         public void onChanged(Boolean isLoading) {
             if (isLoading == null) return;
 
-            OverlayUtil.animateView(findViewById(R.id.progressOverlay), isLoading ? View.GONE : View.VISIBLE);
+            if (isLoading) {
+                OverlayUtil.showOverlayWaiting(overlayWaiting, getSupportFragmentManager());
+            } else {
+                OverlayUtil.close(overlayWaiting);
+            }
         }
     }
 

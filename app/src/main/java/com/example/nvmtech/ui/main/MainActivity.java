@@ -14,8 +14,6 @@ import com.example.nvmtech.utils.LoggerUtil;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-//import androidx.core.R;
-
 
 public class MainActivity extends BaseActivity<MainViewModel> {
 

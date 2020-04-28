@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nvmtech.R;
 import com.example.nvmtech.models.apis.RssItem;
+import com.example.nvmtech.utils.TimeUtil;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,23 +53,20 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         notifyDataSetChanged();
     }
 
-    public class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.rvRssItem) TextView rvRssItem;
+    public class HomeViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tvRssItemTitle) TextView tvRssItemTitle;
+        @BindView(R.id.tvRssItemTime) TextView tvRssItemTime;
 
         public HomeViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        void bind(int position){
+        void bind(int position) {
             final RssItem rssItemModel = getRssItemModel(position);
 
-            this.rvRssItem.setText(rssItemModel.getTitle());
-        }
-
-        @Override
-        public void onClick(View v) {
-
+            this.tvRssItemTitle.setText(rssItemModel.getTitle());
+            this.tvRssItemTime.setText(TimeUtil.parsePubDateToTimeStamp(rssItemModel.getPubDate()));
         }
     }
 }
